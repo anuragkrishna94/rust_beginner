@@ -60,7 +60,24 @@ pub fn chapter6_main() {
      // Usage of match
      let coinChoice: Coin = Coin::Penny;
      let anotherConChoice: &Coin = &coinChoice;
-     println!("Value of 'coinChoice': {:?}, is: {1}", coinChoice, get_value_in_cents(anotherConChoice));
+     println!("Value of 'coinChoice': {:#?}, is: {1}", coinChoice, get_value_in_cents(anotherConChoice));
+
+     // Demonstrate how match-catch all pattern works. 
+     // other is used when the value is needed
+     // _ is used when the value is NOT required.
+     let position: u32 = 0;
+     let dice_roll: u32 = 10;
+     match dice_roll {
+          3 => case_3(),
+          7 => case_7(),
+          other => move_positions(other, position)
+     }
+
+     match dice_roll {
+          3 => case_3(),
+          7 => case_7(),
+          _ => re_roll()
+     }
 }
 
 fn route(ipKind: &IpAddrKind) {}
@@ -72,4 +89,18 @@ fn get_value_in_cents(coin: &Coin) -> u8 {
           Coin::Dime => 10,
           Coin::Quarter => 25
      }
+}
+
+fn case_3(){
+     println!("Case 3");
+}
+fn case_7(){
+     println!("Case 7");
+}
+fn move_positions(num_of_positions: u32, mut pos: u32){
+     pos += num_of_positions;
+     println!("New Position is: {}", pos);
+}
+fn re_roll(){
+     println!("Rerolling");
 }
