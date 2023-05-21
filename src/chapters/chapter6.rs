@@ -78,6 +78,19 @@ pub fn chapter6_main() {
           7 => case_7(),
           _ => re_roll()
      }
+
+     // Demonstration of how `if let` pattern shortens the code when there is only one match condition that needs to be executed
+     // With match
+     let config_max = Some(25);
+     match config_max {
+          Some(val) => println!("The value is: {}", val),
+          _ => ()
+     }
+
+     // With `if let`
+     if let Some(val) = config_max {
+          println!("Value with 'if let' is: {}", val);
+     }
 }
 
 fn route(ipKind: &IpAddrKind) {}
