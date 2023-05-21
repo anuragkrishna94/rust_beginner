@@ -19,6 +19,14 @@ enum IpAddr2 {
      V6(String)
 }
 
+#[derive(Debug)]
+enum Coin {
+     Penny,
+     Nickel,
+     Dime,
+     Quarter
+}
+
 pub fn chapter6_main() {
      // Simple usage of enum
      let ip_v4: IpAddrKind = IpAddrKind::V4;
@@ -48,6 +56,20 @@ pub fn chapter6_main() {
      println!("'not_null_number' is: {}", not_null_number.unwrap());
      let null_number: Option<i32> = None;
      println!("'null_number' is: {}", null_number.unwrap_or(0));
+
+     // Usage of match
+     let coinChoice: Coin = Coin::Penny;
+     let anotherConChoice: &Coin = &coinChoice;
+     println!("Value of 'coinChoice': {:?}, is: {1}", coinChoice, get_value_in_cents(anotherConChoice));
 }
 
 fn route(ipKind: &IpAddrKind) {}
+
+fn get_value_in_cents(coin: &Coin) -> u8 {
+     match coin {
+          Coin::Penny => 1,
+          Coin::Nickel => 5,
+          Coin::Dime => 10,
+          Coin::Quarter => 25
+     }
+}
