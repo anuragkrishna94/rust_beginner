@@ -10,6 +10,12 @@ struct User {
 struct Color(u32, u32, u32);
 struct PositivePoint(u32, u32, u32);
 
+// Rectangle struct
+struct Rectangle {
+     width: u32,
+     height: u32
+}
+
 // This function is intended to mimic the main function for chapter 5 of rust book
 pub fn chapter5_main() {
      // For a struct instance to be mutable, entire instance must be labeled as mutable.
@@ -45,7 +51,23 @@ pub fn chapter5_main() {
      let white = Color(255,255,255);
      let origin = PositivePoint(0,0,0);
 
-     
+     // Calculate area of rectangle without structs.
+     let width1 = 30;
+     let height1 = 50;
+
+     println!("Area of rectangle is: {}", react_area(width1, height1));
+
+     // Calcuate area of retangle with Tuple.
+     // Point to note here is there is no distinction between width and height.
+     let rect1 = (30, 50);
+     println!("Area of rectangle is: {}", react_area_with_tuple(rect1));
+
+     // Calculate area of rectangle defined by struct
+     let rect2 = Rectangle {
+          width: 30,
+          height: 50
+     };
+     println!("Area of rectangle is: {}", react_area_with_struct(&rect2));
 }
 
 // Builds a user by taking in email and username as parameters
@@ -67,3 +89,16 @@ fn build_user_with_shorthand(email: String, username: String) -> User {
           sign_in_count: 1
      }
 }
+
+fn react_area(width: u32, height: u32) -> u32 {
+     width * height
+}
+
+fn react_area_with_tuple(dimensions: (u32, u32)) -> u32 {
+    dimensions.0 * dimensions.1
+}
+
+// Since this function only borrows rect, the function chapter5_main still has the ownership of rect2.
+fn react_area_with_struct(rect: &Rectangle) -> u32 {
+     rect.width * rect.height
+ }
