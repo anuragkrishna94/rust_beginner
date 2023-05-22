@@ -57,4 +57,50 @@ pub fn chapter8_main() {
           Some(elem) => println!("{:#?}", elem),
           _ => println!("No element left to pop")
      }
+
+     // push_str takes a string slice as parameter.
+     // If `push_str` takes ownership of the argument, then the argument cannot be used anywhere subsequent to `push_str`.
+     let mut s1 = String::from("Namaste");
+     let s2 = "Everyone";
+     s1.push_str(s2);
+
+     println!("'s1' became : {s1} after it got added by 's2' {s2}");
+     // Uncomment the following code to see error as `push_str` doesn't take ownership
+     // let s3 = String::from(", Wassup");
+     // s1.push(s3);
+
+     concetenante_using_plus();
+     concatenate_with_format();
+     print_string_characters("Namaste".to_string());
+     println!("");
+     print_string_bytes("Namaste".to_string());
+}
+
+fn concetenante_using_plus() {
+     let s1 = "How ".to_string();
+     let s2 = "are you?".to_string();
+     let s3 = s1 + &s2;
+     println!("Result is : {s3}");
+     // println!("{s1}"); // This will cause an error as s1 has already been moved into s3.
+}
+
+// `format!()` does not take ownership.
+fn concatenate_with_format() {
+     let s1 = "How ".to_string();
+     let s2 = "are you?".to_string();
+     let s3 = format!("{s1}{s2}");
+     println!("Result: {s3}");
+     println!("s1: {s1}, s2: {s2}");
+}
+
+fn print_string_characters(s: String) {
+     for c in s.chars() {
+          print!("{c}-");
+     }
+}
+
+fn print_string_bytes(s: String) {
+     for bytes in s.bytes() {
+          print!("{bytes}-");
+     }
 }
