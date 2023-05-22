@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 #[derive(Debug)]
 enum SpreadsheetCell {
      Int(i32),
@@ -74,6 +76,9 @@ pub fn chapter8_main() {
      print_string_characters("Namaste".to_string());
      println!("");
      print_string_bytes("Namaste".to_string());
+
+     demo_hash_map();
+     demo_hash_map_ownership("Color".to_string(), "Red".to_string());     
 }
 
 fn concetenante_using_plus() {
@@ -103,4 +108,26 @@ fn print_string_bytes(s: String) {
      for bytes in s.bytes() {
           print!("{bytes}-");
      }
+}
+
+fn demo_hash_map() {
+     // `insert()` returns `None`, when key being inserted is not present
+     // `insert()` returns Some(T), when key is present and T is `old value`
+     let mut h_map = HashMap::new();
+     let ret_1: Option<i32> = h_map.insert(String::from("Pandavas"), 5);
+     let ret_2: Option<i32> = h_map.insert(String::from("Kauravas"), 100);
+
+     // `.get()` returns an `Option<&i32>
+     // `.get().copied()` returns an `Option<i32>`
+     let pandava_score = h_map.get("Pandavas").copied().unwrap_or(0);
+     println!("Score of pandavas is : {0}", pandava_score);
+}
+
+fn demo_hash_map_ownership(hmap_key: String, hmap_value: String) {
+     let mut h_map = HashMap::new();
+     h_map.insert(hmap_key, hmap_value);
+
+     // The following lines will cause errors as the values of these variables have been
+     // moved into `h_map`
+     // println!("key: {hmap_key}, value: {hmap_value}");
 }
