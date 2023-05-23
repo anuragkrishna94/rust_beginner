@@ -7,9 +7,9 @@ pub fn chapter9_main() {
 
 fn demo_file_simple_error() {
      let hello_file_result: Result<File, std::io::Error> = File::open("hello.txt");
-     let hello_file: File:  = match hello_file_result {
+     let hello_file: File = match hello_file_result {
           Ok(file) => file,
-          Err(e) => panic!("Erred as : {:?}", E)
+          Err(e) => panic!("Erred as : {:?}", e)
      };
 }
 
