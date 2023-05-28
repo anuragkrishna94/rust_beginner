@@ -56,7 +56,7 @@ pub fn chapter10_main() {
      let news_1 = NewsArticle {
           headline: String::from("Rust being picked by big tech companies"),
           author: String::from("Anurag G"),
-          content: String::from("Rust's memory safety has give big tech companies an incentive to choose Rust over C/C++ and also their own proprietary languages"),
+          content: String::from("Rust's memory safety has given big tech companies an incentive to choose Rust over C/C++ and also their own proprietary languages"),
           location: String::from("Hyderabad"),
           when: String::from("20/05/2023")
      };
@@ -73,6 +73,12 @@ pub fn chapter10_main() {
 
      let tweet1_summary = tweet_1.summarize();
      println!("{}", tweet1_summary);
+
+     notify(&news_1);
+     notify(&tweet_1);
+
+     notify_generic(&news_1);
+     notify_generic(&tweet_1);
 }
 
 fn duplicate_largest_number() {
@@ -123,3 +129,13 @@ fn largest_item_module_generic<T: std::cmp::PartialOrd>(v: &[T]) -> &T {
 
 // Monomorphization ensures that there is no performance overhead due to
 // the use of Generics in code.
+
+// Any type that implements a trait can be passed as argument
+// This is syntactic sugar for `notify_generic`
+fn notify(item: &impl Summary) {
+     println!("Breaking News: {}", item.summarize());
+}
+
+fn notify_generic<T: Summary>(item: &T) {
+     println!("Breaking News: {}", item.summarize());
+}
