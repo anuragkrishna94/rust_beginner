@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 struct NewsArticle {
      headline: String,
      location: String,
@@ -33,6 +35,10 @@ impl Summary for Tweet {
           format!("ReTweet, by: {}, on: {}", self.username, self.when)
          }
      }
+}
+
+struct ImportantExcerpt<'a> {
+     part: &'a str
 }
 
 pub fn chapter10_main() {
@@ -79,6 +85,14 @@ pub fn chapter10_main() {
 
      notify_generic(&news_1);
      notify_generic(&tweet_1);
+
+     // Lifetimes
+     let longest_str = longest_string("Namaste", "Namaskaram");
+     println!("{}", longest_str);
+
+     extract_important_excerpt_from_paragraph("This is the first sentence of a paragraph. This is the second".to_string());
+
+     println!("Longest is : {}", longest_with_an_announcement("Pranam", "Pranamam", 45));
 }
 
 fn duplicate_largest_number() {
@@ -138,4 +152,49 @@ fn notify(item: &impl Summary) {
 
 fn notify_generic<T: Summary>(item: &T) {
      println!("Breaking News: {}", item.summarize());
+}
+
+// Return longest string
+//  The following function will throw an error as the compiler cannot determine
+// if the return type of this function borrows from x OR y
+// Also if lifetime is not specific, compiler cannot determine if return type is borrowing
+// a value from `x` OR `y` OR some other local reference within the function
+// fn longest_string_err(x: &str, y: &str) -> &str {
+//      if x.len() > y.len() {
+//           x
+//      }
+//      else {
+//           y
+//      }
+// }
+
+// Longest string with generic lifetime
+// Read up on Lifetime Elision. Very important
+fn longest_string<'a>(x: &'a str, y: &'a str) -> &'a str {
+     if x.len() > y.len() {
+          x
+     }
+     else {
+          y
+     }
+}
+
+fn extract_important_excerpt_from_paragraph(input_paragraph: String) {
+     let excerpt = input_paragraph.split('.').next().expect("No . found");
+     let imp_ex = ImportantExcerpt {
+          part: excerpt
+     };
+     println!("The excerpt is : {}", imp_ex.part);
+}
+
+fn longest_with_an_announcement<'a, T> (x: &'a str, y: &'a str, ann: T) -> &'a str
+where
+T : Display {
+     println!("Announcing : {}", ann);
+     if x.len() > y.len() {
+          x
+     }
+     else {
+         y
+     }
 }
